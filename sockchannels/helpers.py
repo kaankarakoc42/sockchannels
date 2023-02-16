@@ -2,9 +2,6 @@ import hashlib
 import base64
 
 def handle_websocket_upgrade(client_socket,request):
-    # Receive and parse the client's upgrade request
-    #request = client_socket.recv(1024)
-    print(request)
     headers = request.split(b'\r\n')
     headers_dict = {}
     for header in headers:
@@ -23,7 +20,6 @@ def handle_websocket_upgrade(client_socket,request):
 
 def receive_websocket_data(client_socket):
     data = client_socket.recv(1024)
-    print(data)
     if len(data) < 6:
         return None
     payload_len = data[1] & 127
@@ -57,12 +53,7 @@ def send_websocket_data(client_socket, data):
     client_socket.sendall(encoded)
 
 def upgrade_websocket_connection(client_socket):
-    # Generate a random key for the upgrade request
-    key = base64.b64encode(hashlib.sha1(b'random_key').digest()).decode()
-    # Send the upgrade request
-
-    request = f"GET / HTTP/1.1\r\nHost: localhost:1234\r\nUpgrade: websocket\r\nConnection: Upgrade\r\nSec-WebSocket-Key: {key}\r\nSec-WebSocket-Version: 13\r\n\r\n"
-    client_socket.sendall(request.encode())
+    pass
 
 def auto_get_args(defaults):
     def finner(func):
